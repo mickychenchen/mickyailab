@@ -1,2 +1,9 @@
+# Security
 .env
 node_modules/
+*.log
+
+# Project specific
+images/
+images.json
+package-lock.json

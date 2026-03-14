@@ -29,15 +29,15 @@
             if (!prompt) return;
             
             const seed = Math.floor(Math.random() * 99999);
-            // 完全遵循官方範例用法
-            const imageUrl = `https://gen.pollinations.ai/image/${encodeURIComponent(prompt)}?model=flux&width=1024&height=1024&nologo=true&seed=${seed}`;
+            // 改為呼叫本地代理伺服器，以保護 API KEY 並避免客戶端直連
+            const proxyUrl = `http://localhost:3001/generate-image?prompt=${encodeURIComponent(prompt)}&seed=${seed}&model=flux`;
             
             const gallery = document.getElementById('gallery');
             const div = document.createElement('div');
             div.className = 'artwork';
             div.innerHTML = `
                 <div class="status-tag">AI Generating...</div>
-                <img src="${imageUrl}" onload="this.previousElementSibling.innerText='Flux Engine'" onerror="this.previousElementSibling.innerText='Error'">
+                <img src="${proxyUrl}" onload="this.previousElementSibling.innerText='Flux Engine (via Proxy)'" onerror="this.previousElementSibling.innerText='Error'">
             `;
             gallery.prepend(div);
         }
