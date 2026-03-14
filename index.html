@@ -29,8 +29,8 @@
             if (!prompt) return;
             
             const seed = Math.floor(Math.random() * 99999);
-            // 改為呼叫本地代理伺服器，以保護 API KEY 並避免客戶端直連
-            const proxyUrl = `http://localhost:3001/generate-image?prompt=${encodeURIComponent(prompt)}&seed=${seed}&model=flux`;
+            // 改為呼叫 Vercel Serverless Function API
+            const proxyUrl = `/api/generate-image?prompt=${encodeURIComponent(prompt)}&seed=${seed}&model=flux`;
             
             const gallery = document.getElementById('gallery');
             const div = document.createElement('div');
