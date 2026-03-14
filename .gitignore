@@ -6,4 +6,3 @@ node_modules/
 # Project specific
 images/
 images.json
-package-lock.json
