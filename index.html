@@ -3,51 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Micky AI Lab - Pro</title>
-    <link rel="icon" type="image/png" href="favicon.png">
+    <title>Micky AI Lab - Live</title>
     <style>
-        body { background: #0f172a; color: #f8fafc; font-family: system-ui; margin: 0; padding: 2rem; display: flex; flex-direction: column; align-items: center; }
-        .control-panel { background: #1e293b; padding: 1.5rem; border-radius: 1rem; border: 1px solid #334155; width: 100%; max-width: 600px; display: flex; gap: 0.5rem; margin-top: 20px; }
-        input { flex: 1; padding: 0.75rem; border-radius: 0.5rem; border: 1px solid #475569; background: #0f172a; color: white; }
+        body { background: #0f172a; color: #f8fafc; font-family: system-ui; margin: 0; padding: 2rem; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+        .control-panel { background: #1e293b; padding: 1.5rem; border-radius: 1rem; border: 1px solid #334155; width: 100%; max-width: 600px; display: flex; gap: 0.5rem; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3); }
+        input { flex: 1; padding: 0.75rem; border-radius: 0.5rem; border: 1px solid #475569; background: #0f172a; color: white; outline: none; }
         button { padding: 0.75rem 1.5rem; border-radius: 0.5rem; border: none; background: #38bdf8; color: #0f172a; font-weight: bold; cursor: pointer; }
-        .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; width: 100%; max-width: 1200px; margin-top: 2rem; }
-        .artwork { border-radius: 0.75rem; overflow: hidden; border: 1px solid #334155; transition: 0.3s; }
-        .artwork:hover { border-color: #38bdf8; }
-        .artwork img { width: 100%; height: auto; display: block; }
-        #loading { display: none; color: #38bdf8; margin-top: 10px; }
+        .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; width: 100%; max-width: 1200px; margin-top: 2rem; }
+        .artwork { background: #1e293b; border-radius: 0.75rem; overflow: hidden; border: 1px solid #334155; transition: 0.3s; }
+        .artwork img { width: 100%; height: auto; display: block; background: #0f172a; min-height: 300px; }
+        .artwork .info { padding: 0.75rem; font-size: 0.8rem; color: #94a3b8; }
     </style>
 </head>
 <body>
-    <h1>Micky AI Lab</h1>
+    <h1 style="color: #38bdf8;">Micky AI Lab</h1>
+    <p style="color: #64748b;">此版本不佔用存儲空間，圖片僅顯示在本地瀏覽器</p>
     <div class="control-panel">
-        <input type="text" id="promptInput" placeholder="請輸入精確的英文描述..." value="Futuristic Tokyo street, rainy night, cinematic lights">
-        <button onclick="generate()">立即生成</button>
+        <input type="text" id="promptInput" placeholder="輸入英文描述 (例如: A cute walking banana)" value="A cute walking banana, 3d render, white background">
+        <button onclick="generate()">生成圖片</button>
     </div>
-    <div id="loading">⏳ 正在與 Pollinations 進行 Pollen 交換...</div>
-    <div class="gallery" id="gallery"></div>
+    <div id="gallery" class="gallery"></div>
     <script>
         function generate() {
             const prompt = document.getElementById('promptInput').value;
-            const loader = document.getElementById('loading');
-            const gallery = document.getElementById('gallery');
-            loader.style.display = 'block';
-            
+            if (!prompt) return;
             const seed = Math.floor(Math.random() * 1000000);
-            // 根據文件使用正確的 API 端點
-            const imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?width=1024&height=1024&seed=${seed}&nologo=true&enhance=true`;
-
-            const img = new Image();
-            img.src = imageUrl;
-            img.onload = () => {
-                loader.style.display = 'none';
-                const div = document.createElement('div');
-                div.className = 'artwork';
-                div.innerHTML = `<img src="${imageUrl}">`;
-                gallery.prepend(div);
-            };
-            img.onerror = () => {
-                loader.innerText = '❌ 生成失敗，請檢查網路環境';
-            };
+            const imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?width=1024&height=1024&seed=${seed}&nologo=true`;
+            const div = document.createElement('div');
+            div.className = 'artwork';
+            div.innerHTML = `<img src="${imageUrl}"><div class="info">Seed: ${seed}<br>Prompt: ${prompt}</div>`;
+            document.getElementById('gallery').prepend(div);
         }
     </script>
 </body>
