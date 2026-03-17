@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Micky AI Lab | 未來實驗室</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color: #0f172a; color: #f8fafc; }
+        .glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .glow { box-shadow: 0 0 20px rgba(56, 189, 248, 0.5); }
+    </style>
+</head>
+<body class="antialiased">
+    <nav class="p-6 flex justify-between items-center">
+        <div class="text-2xl font-bold bg-gradient-to-r from-blue-400 to-emerald-400 bg-clip-text text-transparent">Micky AI Lab</div>
+        <div class="space-x-6">
+            <a href="#" class="hover:text-blue-400 transition">技術</a>
+            <a href="#" class="hover:text-blue-400 transition">關於</a>
+        </div>
+    </nav>
+
+    <main class="container mx-auto px-6 py-20 text-center">
+        <h1 class="text-6xl font-extrabold mb-6 tracking-tight">
+            探索 AI 的 <span class="text-blue-500">無限可能</span>
+        </h1>
+        <p class="text-xl text-slate-400 mb-10 max-w-2xl mx-auto">
+            這裡是 Micky 的數位創意溫床。我們將想像力轉化為算法，將創意實體化為代碼。歡迎來到下一世代的實驗空間。
+        </p>
+        
+        <div class="flex justify-center gap-4 mb-20">
+            <button class="px-8 py-3 bg-blue-600 hover:bg-blue-700 rounded-full font-bold transition glow">進入實驗室</button>
+            <button class="px-8 py-3 glass hover:bg-white/10 rounded-full font-bold transition">了解更多</button>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8">
+            <div class="p-8 glass rounded-2xl text-left">
+                <div class="text-blue-400 text-3xl mb-4">🎨</div>
+                <h3 class="text-xl font-bold mb-2">AI 視覺生成</h3>
+                <p class="text-slate-400">基於最新擴散模型，精準還原你的文字想像。</p>
+            </div>
+            <div class="p-8 glass rounded-2xl text-left">
+                <div class="text-emerald-400 text-3xl mb-4">🤖</div>
+                <h3 class="text-xl font-bold mb-2">自動化智能</h3>
+                <p class="text-slate-400">跨平台的 Agent 部署，讓 AI 成為你的 24/7 小編。</p>
+            </div>
+            <div class="p-8 glass rounded-2xl text-left">
+                <div class="text-purple-400 text-3xl mb-4">⚡</div>
+                <h3 class="text-xl font-bold mb-2">極速運算</h3>
+                <p class="text-slate-400">優化過的 arm64 環境，確保每一行代碼都爆發出最強戰力。</p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="py-10 text-center text-slate-500 text-sm border-t border-white/5">
+        &copy; 2026 Micky AI Lab. Powered by BMO v9.1.5
+    </footer>
+</body>
+</html>
