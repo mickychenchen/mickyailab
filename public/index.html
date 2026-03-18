@@ -1,96 +1,77 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Micky AI Lab | Future Intelligence</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Micky AI Lab | Dual Engine</title>
     <style>
-        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
-        .hero-video { position: absolute; top: 50%; left: 50%; min-width: 100%; min-height: 100%; width: auto; height: auto; z-index: -1; transform: translate(-50%, -50%); object-fit: cover; }
-        .artwork-img { min-height: 200px; background: #111; }
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; background: #000; font-family: 'Inter', sans-serif; color: #fff; overflow-x: hidden; }
+        #hero-video { position: fixed; top: 0; left: 0; min-width: 100%; min-height: 100%; z-index: -1; filter: brightness(0.4); object-fit: cover; }
+        .container { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; box-sizing: border-box; }
+        .header { margin-bottom: 40px; text-align: center; text-transform: uppercase; letter-spacing: 5px; }
+        .main-grid { display: flex; gap: 25px; width: 100%; max-width: 1100px; flex-wrap: wrap; justify-content: center; }
+        .glass-card { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 24px; padding: 30px; flex: 1; min-width: 320px; box-shadow: 0 15px 35px rgba(0,0,0,0.5); display: flex; flex-direction: column; gap: 15px; }
+        .card-title { font-size: 1.2rem; font-weight: 700; color: rgba(255,255,255,0.8); border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; margin-bottom: 5px; display: flex; align-items: center; gap: 10px; }
+        .card-title::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: #f39c12; }
+        .cf-theme::before { background: #2980b9; }
+        input { background: rgba(0, 0, 0, 0.2); border: 1px solid rgba(255, 255, 255, 0.2); padding: 14px; border-radius: 12px; color: #fff; outline: none; transition: 0.3s; }
+        input:focus { border-color: #f39c12; background: rgba(0,0,0,0.4); }
+        button { padding: 14px; border-radius: 12px; border: none; cursor: pointer; font-weight: 600; text-transform: uppercase; transition: 0.3s; }
+        .btn-flux { background: linear-gradient(135deg, #f39c12, #e67e22); color: white; }
+        .btn-cf { background: linear-gradient(135deg, #3498db, #2980b9); color: white; }
+        button:hover { transform: translateY(-2px); filter: brightness(1.2); }
+        #result-display { margin-top: 30px; display: none; text-align: center; }
+        #result-display img { max-width: 100%; border-radius: 16px; border: 1px solid rgba(255,255,255,0.2); box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
     </style>
 </head>
-<body class="bg-[#050505] text-white selection:bg-cyan-500 selection:text-black">
-    <section class="relative h-screen flex items-center justify-center overflow-hidden">
-        <video autoplay muted loop playsinline class="hero-video">
-            <source src="/hero.mp4" type="video/mp4">
-        </video>
-        <div class="absolute top-0 left-0 w-full h-full bg-black/50 z-[0]"></div>
-        <div class="container mx-auto px-6 text-center relative z-10">
-            <h1 class="text-6xl md:text-8xl font-bold tracking-tighter mb-8 bg-clip-text text-transparent bg-gradient-to-b from-white to-gray-400">MICKY AI LAB</h1>
-            <p class="text-xl md:text-2xl text-gray-400 max-w-2xl mx-auto mb-12 font-light tracking-wide">Synchronizing human creativity with neural precision.</p>
-            <a href="#features" class="px-8 py-4 bg-white text-black rounded-full font-semibold hover:bg-cyan-400 transition-all duration-300">Explore Intelligence</a>
-        </div>
-    </section>
-
-    <section id="features" class="py-24 px-6 bg-[#050505]">
-        <div class="container mx-auto">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-                <div class="glass p-10 rounded-3xl border-cyan-500/30">
-                    <h3 class="text-2xl font-bold mb-4 text-cyan-400">Flux Generation</h3>
-                    <p class="text-gray-500 mb-6">Next-gen image synthesis powered by Micky-Painter v2.0.</p>
-                    <div class="flex flex-col gap-3">
-                        <input type="text" id="promptInput" placeholder="Imagine something..." class="bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-cyan-500 transition-all text-sm">
-                        <button onclick="generate()" class="w-full py-3 bg-cyan-500 text-black rounded-xl font-bold hover:bg-cyan-400 transition-all active:scale-95">Generate Image</button>
-                    </div>
-                </div>
-                <div class="glass p-10 rounded-3xl opacity-50">
-                    <h3 class="text-2xl font-bold mb-4 text-purple-400">Agent Browser</h3>
-                    <p class="text-gray-500">Autonomous web intelligence (Coming Soon).</p>
-                </div>
-                <div class="glass p-10 rounded-3xl opacity-50">
-                    <h3 class="text-2xl font-bold mb-4 text-amber-400">System Sync</h3>
-                    <p class="text-gray-500">Seamless long-term memory (Coming Soon).</p>
-                </div>
+<body>
+    <video autoplay muted loop id="hero-video"><source src="/hero.mp4" type="video/mp4"></video>
+    <div class="container">
+        <div class="header"><h1>Micky AI Lab</h1></div>
+        <div class="main-grid">
+            <div class="glass-card">
+                <div class="card-title">Flux Generation</div>
+                <input type="text" id="flux-prompt" placeholder="Flux model prompt...">
+                <button class="btn-flux" onclick="runFlux()">Generate Flux</button>
             </div>
-            <div id="gallery" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+            <div class="glass-card">
+                <div class="card-title cf-theme">Cloudflare AI</div>
+                <input type="text" id="cf-prompt" placeholder="CF Workers AI prompt...">
+                <button class="btn-cf" onclick="runCF()">Generate CF</button>
+            </div>
         </div>
-    </section>
-
-    <script>
-        function generate() {
-            const prompt = document.getElementById('promptInput').value;
-            if (!prompt) return;
-            const seed = Math.floor(Math.random() * 99999);
-            const proxyUrl = `/api/generate-image?prompt=${encodeURIComponent(prompt)}&seed=${seed}&model=flux`;
-            const gallery = document.getElementById('gallery');
-            const div = document.createElement('div');
-            div.className = 'glass p-4 rounded-2xl animate-pulse';
-            div.innerHTML = `<div class="text-xs text-cyan-500 mb-2 uppercase tracking-widest">Neural Processing...</div><img src="${proxyUrl}" class="w-full rounded-xl artwork-img" onload="this.parentElement.classList.remove('animate-pulse'); this.previousElementSibling.innerText='Flux Engine Active'" onerror="this.previousElementSibling.innerText='Engine Offline'">`;
-            gallery.prepend(div);
-        }
-    </script>
-    
-    <div id="ai-container" style="position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 1000; background: rgba(0,0,0,0.7); pading: 20px; border-radius: 15px; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); width: 90%; max-width: 500px; padding: 15px; text-align: center;">
-        <input type="text" id="cf-prompt" placeholder="輸入 AI 繪圖提示詞..." style="width: 70%; padding: 10px; border-radius: 5px; border: none; outline: none;">
-        <button id="cf-gen-btn" onclick="handleGeneration()" style="width: 25%; padding: 10px; background: #f39c12; color: white; border: none; border-radius: 5px; cursor: pointer;">生成</button>
-        <div id="cf-result" style="margin-top: 15px; display: none;">
-            <img id="cf-img" src="" style="width: 100%; border-radius: 10px; border: 2px solid #f39c12;">
+        <div id="result-display">
+            <p id="status-text"></p>
+            <img id="main-img" src="" alt="AI Generation">
         </div>
     </div>
     <script src="/cloudflare-handler.js"></script>
     <script>
-        async function handleGeneration() {
-            const prompt = document.getElementById("cf-prompt").value;
-            const btn = document.getElementById("cf-gen-btn");
-            const resDiv = document.getElementById("cf-result");
-            const img = document.getElementById("cf-img");
-            if(!prompt) return alert("請輸入提示詞！");
-            
-            btn.innerText = "繪製中...";
-            btn.disabled = true;
-            
+        const display = document.getElementById('result-display');
+        const mainImg = document.getElementById('main-img');
+        const status = document.getElementById('status-text');
+        async function runFlux() {
+            const prompt = document.getElementById('flux-prompt').value;
+            if(!prompt) return;
+            status.innerText = "Flux Engine Initializing...";
+            display.style.display = 'block';
+            try {
+                const response = await fetch('/api/generate-image', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ prompt }) });
+                const data = await response.json();
+                mainImg.src = data.url || data.image;
+                status.innerText = "Flux Generation Complete";
+            } catch (e) { status.innerText = "Flux Error: " + e.message; }
+        }
+        async function runCF() {
+            const prompt = document.getElementById('cf-prompt').value;
+            if(!prompt) return;
+            status.innerText = "Cloudflare AI Dreaming...";
+            display.style.display = 'block';
             try {
                 const base64 = await generateCloudflareImage(prompt);
-                img.src = base64;
-                resDiv.style.display = "block";
-            } catch (e) {
-                alert("生成失敗，請檢查後端日誌");
-            } finally {
-                btn.innerText = "生成";
-                btn.disabled = false;
-            }
+                mainImg.src = base64;
+                status.innerText = "CF Generation Complete";
+            } catch (e) { status.innerText = "CF Error: " + e.message; }
         }
     </script>
 </body>
