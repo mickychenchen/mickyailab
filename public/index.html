@@ -7,13 +7,16 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
-        .hero-video { position: absolute; top: 50%; left: 50%; min-width: 100%; min-height: 100%; width: auto; height: auto; z-index: -100; transform: translate(-50%, -50%); object-fit: cover; }
+        .hero-video { position: absolute; top: 50%; left: 50%; min-width: 100%; min-height: 100%; width: auto; height: auto; z-index: -1; transform: translate(-50%, -50%); object-fit: cover; }
         .artwork-img { min-height: 200px; background: #111; }
     </style>
 </head>
 <body class="bg-[#050505] text-white selection:bg-cyan-500 selection:text-black">
     <section class="relative h-screen flex items-center justify-center overflow-hidden">
-        <div class="absolute top-0 left-0 w-full h-full bg-black/50 z-[1]"></div>
+        <video autoplay muted loop playsinline class="hero-video">
+            <source src="/hero.mp4" type="video/mp4">
+        </video>
+        <div class="absolute top-0 left-0 w-full h-full bg-black/50 z-[0]"></div>
         <div class="container mx-auto px-6 text-center relative z-10">
             <h1 class="text-6xl md:text-8xl font-bold tracking-tighter mb-8 bg-clip-text text-transparent bg-gradient-to-b from-white to-gray-400">MICKY AI LAB</h1>
             <p class="text-xl md:text-2xl text-gray-400 max-w-2xl mx-auto mb-12 font-light tracking-wide">Synchronizing human creativity with neural precision.</p>
@@ -41,7 +44,6 @@
                     <p class="text-gray-500">Seamless long-term memory (Coming Soon).</p>
                 </div>
             </div>
-            
             <div id="gallery" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
         </div>
     </section>
@@ -52,14 +54,10 @@
             if (!prompt) return;
             const seed = Math.floor(Math.random() * 99999);
             const proxyUrl = `/api/generate-image?prompt=${encodeURIComponent(prompt)}&seed=${seed}&model=flux`;
-            
             const gallery = document.getElementById('gallery');
             const div = document.createElement('div');
             div.className = 'glass p-4 rounded-2xl animate-pulse';
-            div.innerHTML = `
-                <div class="text-xs text-cyan-500 mb-2 uppercase tracking-widest">Neural Processing...</div>
-                <img src="${proxyUrl}" class="w-full rounded-xl artwork-img" onload="this.parentElement.classList.remove('animate-pulse'); this.previousElementSibling.innerText='Flux Engine Active'" onerror="this.previousElementSibling.innerText='Engine Offline'">
-            `;
+            div.innerHTML = `<div class="text-xs text-cyan-500 mb-2 uppercase tracking-widest">Neural Processing...</div><img src="${proxyUrl}" class="w-full rounded-xl artwork-img" onload="this.parentElement.classList.remove('animate-pulse'); this.previousElementSibling.innerText='Flux Engine Active'" onerror="this.previousElementSibling.innerText='Engine Offline'">`;
             gallery.prepend(div);
         }
     </script>
