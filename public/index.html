@@ -61,5 +61,37 @@
             gallery.prepend(div);
         }
     </script>
+    
+    <div id="ai-container" style="position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 1000; background: rgba(0,0,0,0.7); pading: 20px; border-radius: 15px; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); width: 90%; max-width: 500px; padding: 15px; text-align: center;">
+        <input type="text" id="cf-prompt" placeholder="輸入 AI 繪圖提示詞..." style="width: 70%; padding: 10px; border-radius: 5px; border: none; outline: none;">
+        <button id="cf-gen-btn" onclick="handleGeneration()" style="width: 25%; padding: 10px; background: #f39c12; color: white; border: none; border-radius: 5px; cursor: pointer;">生成</button>
+        <div id="cf-result" style="margin-top: 15px; display: none;">
+            <img id="cf-img" src="" style="width: 100%; border-radius: 10px; border: 2px solid #f39c12;">
+        </div>
+    </div>
+    <script src="/cloudflare-handler.js"></script>
+    <script>
+        async function handleGeneration() {
+            const prompt = document.getElementById("cf-prompt").value;
+            const btn = document.getElementById("cf-gen-btn");
+            const resDiv = document.getElementById("cf-result");
+            const img = document.getElementById("cf-img");
+            if(!prompt) return alert("請輸入提示詞！");
+            
+            btn.innerText = "繪製中...";
+            btn.disabled = true;
+            
+            try {
+                const base64 = await generateCloudflareImage(prompt);
+                img.src = base64;
+                resDiv.style.display = "block";
+            } catch (e) {
+                alert("生成失敗，請檢查後端日誌");
+            } finally {
+                btn.innerText = "生成";
+                btn.disabled = false;
+            }
+        }
+    </script>
 </body>
 </html>
