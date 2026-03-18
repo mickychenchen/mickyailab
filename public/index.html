@@ -8,39 +8,60 @@
     <style>
         .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
         .hero-video { position: absolute; top: 50%; left: 50%; min-width: 100%; min-height: 100%; width: auto; height: auto; z-index: -100; transform: translate(-50%, -50%); object-fit: cover; }
+        .artwork-img { min-height: 200px; background: #111; }
     </style>
 </head>
 <body class="bg-[#050505] text-white selection:bg-cyan-500 selection:text-black">
     <section class="relative h-screen flex items-center justify-center overflow-hidden">
-        
-        <video autoplay muted loop playsinline class="hero-video">
-            <source src="/hero.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
-        
-        <div class="absolute top-0 left-0 w-full h-full bg-black/50 z-[-1]"></div>
-
+        <div class="absolute top-0 left-0 w-full h-full bg-black/50 z-[1]"></div>
         <div class="container mx-auto px-6 text-center relative z-10">
             <h1 class="text-6xl md:text-8xl font-bold tracking-tighter mb-8 bg-clip-text text-transparent bg-gradient-to-b from-white to-gray-400">MICKY AI LAB</h1>
             <p class="text-xl md:text-2xl text-gray-400 max-w-2xl mx-auto mb-12 font-light tracking-wide">Synchronizing human creativity with neural precision.</p>
-            <a href="#" class="px-8 py-4 bg-white text-black rounded-full font-semibold hover:bg-cyan-400 transition-all duration-300 transform hover:scale-105 active:scale-95">Explore Intelligence</a>
+            <a href="#features" class="px-8 py-4 bg-white text-black rounded-full font-semibold hover:bg-cyan-400 transition-all duration-300">Explore Intelligence</a>
         </div>
     </section>
-    <section class="py-24 px-6 bg-[#050505]">
-        <div class="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div class="glass p-10 rounded-3xl hover:border-cyan-500/50 transition-colors group cursor-pointer">
-                <h3 class="text-2xl font-bold mb-4 text-cyan-400">Flux Generation</h3>
-                <p class="text-gray-500">Next-gen image synthesis powered by Micky-Painter v2.0.</p>
+
+    <section id="features" class="py-24 px-6 bg-[#050505]">
+        <div class="container mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+                <div class="glass p-10 rounded-3xl border-cyan-500/30">
+                    <h3 class="text-2xl font-bold mb-4 text-cyan-400">Flux Generation</h3>
+                    <p class="text-gray-500 mb-6">Next-gen image synthesis powered by Micky-Painter v2.0.</p>
+                    <div class="flex flex-col gap-3">
+                        <input type="text" id="promptInput" placeholder="Imagine something..." class="bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-cyan-500 transition-all text-sm">
+                        <button onclick="generate()" class="w-full py-3 bg-cyan-500 text-black rounded-xl font-bold hover:bg-cyan-400 transition-all active:scale-95">Generate Image</button>
+                    </div>
+                </div>
+                <div class="glass p-10 rounded-3xl opacity-50">
+                    <h3 class="text-2xl font-bold mb-4 text-purple-400">Agent Browser</h3>
+                    <p class="text-gray-500">Autonomous web intelligence (Coming Soon).</p>
+                </div>
+                <div class="glass p-10 rounded-3xl opacity-50">
+                    <h3 class="text-2xl font-bold mb-4 text-amber-400">System Sync</h3>
+                    <p class="text-gray-500">Seamless long-term memory (Coming Soon).</p>
+                </div>
             </div>
-            <div class="glass p-10 rounded-3xl hover:border-purple-500/50 transition-colors group cursor-pointer">
-                <h3 class="text-2xl font-bold mb-4 text-purple-400">Agent Browser</h3>
-                <p class="text-gray-500">Autonomous web intelligence and data reconnaissance.</p>
-            </div>
-            <div class="glass p-10 rounded-3xl hover:border-amber-500/50 transition-colors group cursor-pointer">
-                <h3 class="text-2xl font-bold mb-4 text-amber-400">System Sync</h3>
-                <p class="text-gray-500">Seamless long-term memory and cross-platform automation.</p>
-            </div>
+            
+            <div id="gallery" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
         </div>
     </section>
+
+    <script>
+        function generate() {
+            const prompt = document.getElementById('promptInput').value;
+            if (!prompt) return;
+            const seed = Math.floor(Math.random() * 99999);
+            const proxyUrl = `/api/generate-image?prompt=${encodeURIComponent(prompt)}&seed=${seed}&model=flux`;
+            
+            const gallery = document.getElementById('gallery');
+            const div = document.createElement('div');
+            div.className = 'glass p-4 rounded-2xl animate-pulse';
+            div.innerHTML = `
+                <div class="text-xs text-cyan-500 mb-2 uppercase tracking-widest">Neural Processing...</div>
+                <img src="${proxyUrl}" class="w-full rounded-xl artwork-img" onload="this.parentElement.classList.remove('animate-pulse'); this.previousElementSibling.innerText='Flux Engine Active'" onerror="this.previousElementSibling.innerText='Engine Offline'">
+            `;
+            gallery.prepend(div);
+        }
+    </script>
 </body>
 </html>
