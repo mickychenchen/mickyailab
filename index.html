@@ -1,46 +1,46 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Micky AI Lab - Official API Ver.</title>
+    <title>Micky AI Lab | Future Intelligence</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { background: #0f172a; color: #f8fafc; font-family: system-ui; margin: 0; padding: 2rem; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
-        .control-panel { background: #1e293b; padding: 1.5rem; border-radius: 1rem; border: 1px solid #334155; width: 100%; max-width: 600px; display: flex; gap: 0.5rem; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3); }
-        input { flex: 1; padding: 0.75rem; border-radius: 0.5rem; border: 1px solid #475569; background: #0f172a; color: white; outline: none; }
-        button { padding: 0.75rem 1.5rem; border-radius: 0.5rem; border: none; background: #38bdf8; color: #0f172a; font-weight: bold; cursor: pointer; }
-        .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; width: 100%; max-width: 1200px; margin-top: 2rem; }
-        .artwork { background: #1e293b; border-radius: 0.75rem; overflow: hidden; border: 1px solid #334155; position: relative; }
-        .artwork img { width: 100%; height: auto; display: block; background: #0f172a; min-height: 300px; }
-        .status-tag { position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.6); padding: 4px 8px; border-radius: 4px; font-size: 10px; }
+        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .hero-video { position: absolute; top: 50%; left: 50%; min-width: 100%; min-height: 100%; width: auto; height: auto; z-index: -100; transform: translate(-50%, -50%); object-fit: cover; }
     </style>
 </head>
-<body>
-    <h1 style="color: #38bdf8;">Micky AI Lab</h1>
-    <p style="color: #94a3b8;">使用官方 gen.pollinations.ai 直連技術</p>
-    <div class="control-panel">
-        <input type="text" id="promptInput" placeholder="例如: a cute walking banana" value="a cute walking banana, 3d render, high quality">
-        <button onclick="generate()">召喚圖像</button>
-    </div>
-    <div id="gallery" class="gallery"></div>
-    <script>
-        function generate() {
-            const prompt = document.getElementById('promptInput').value;
-            if (!prompt) return;
-            
-            const seed = Math.floor(Math.random() * 99999);
-            // 改為呼叫 Vercel Serverless Function API
-            const proxyUrl = `/api/generate-image?prompt=${encodeURIComponent(prompt)}&seed=${seed}&model=flux`;
-            
-            const gallery = document.getElementById('gallery');
-            const div = document.createElement('div');
-            div.className = 'artwork';
-            div.innerHTML = `
-                <div class="status-tag">AI Generating...</div>
-                <img src="${proxyUrl}" onload="this.previousElementSibling.innerText='Flux Engine (via Proxy)'" onerror="this.previousElementSibling.innerText='Error'">
-            `;
-            gallery.prepend(div);
-        }
-    </script>
+<body class="bg-[#050505] text-white selection:bg-cyan-500 selection:text-black">
+    <section class="relative h-screen flex items-center justify-center overflow-hidden">
+        
+        <video autoplay muted loop playsinline class="hero-video">
+            <source src="/hero.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        
+        <div class="absolute top-0 left-0 w-full h-full bg-black/50 z-[-1]"></div>
+
+        <div class="container mx-auto px-6 text-center relative z-10">
+            <h1 class="text-6xl md:text-8xl font-bold tracking-tighter mb-8 bg-clip-text text-transparent bg-gradient-to-b from-white to-gray-400">MICKY AI LAB</h1>
+            <p class="text-xl md:text-2xl text-gray-400 max-w-2xl mx-auto mb-12 font-light tracking-wide">Synchronizing human creativity with neural precision.</p>
+            <a href="#" class="px-8 py-4 bg-white text-black rounded-full font-semibold hover:bg-cyan-400 transition-all duration-300 transform hover:scale-105 active:scale-95">Explore Intelligence</a>
+        </div>
+    </section>
+    <section class="py-24 px-6 bg-[#050505]">
+        <div class="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="glass p-10 rounded-3xl hover:border-cyan-500/50 transition-colors group cursor-pointer">
+                <h3 class="text-2xl font-bold mb-4 text-cyan-400">Flux Generation</h3>
+                <p class="text-gray-500">Next-gen image synthesis powered by Micky-Painter v2.0.</p>
+            </div>
+            <div class="glass p-10 rounded-3xl hover:border-purple-500/50 transition-colors group cursor-pointer">
+                <h3 class="text-2xl font-bold mb-4 text-purple-400">Agent Browser</h3>
+                <p class="text-gray-500">Autonomous web intelligence and data reconnaissance.</p>
+            </div>
+            <div class="glass p-10 rounded-3xl hover:border-amber-500/50 transition-colors group cursor-pointer">
+                <h3 class="text-2xl font-bold mb-4 text-amber-400">System Sync</h3>
+                <p class="text-gray-500">Seamless long-term memory and cross-platform automation.</p>
+            </div>
+        </div>
+    </section>
 </body>
 </html>
