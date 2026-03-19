@@ -1,4 +1,6 @@
 {
-  "rewrites": [{ "source": "/", "destination": "/landing.html" }],
-  "cleanUrls": true
+  "rewrites": [
+    { "source": "/beta/:path*", "destination": "/:path*" },
+    { "source": "/blog", "destination": "/blog.html" }
+  ]
 }
