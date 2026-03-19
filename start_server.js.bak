@@ -1,0 +1,30 @@
+const express = require('express');
+const { createProxyMiddleware } = require('http-proxy-middleware');
+const path = require('path');
+const app = express();
+const PORT = 3001;
+const PROJ_ROOT = '/home/ubuntu/mickyailab';
+
+// 1. API 代理配置 (精準對齊)
+const apiProxy = createProxyMiddleware({ errorHandler: (err, req, res) => res.status(502).send('Proxy Error'), 
+    target: 'https://mickyailab.vercel.app',
+    changeOrigin: true, proxyTimeout: 5000, timeout: 5000,
+    pathRewrite: { '^/(beta/)?api': '/api' }
+});
+app.use('/api', apiProxy);
+app.use('/beta/api', apiProxy);
+
+// 2. 靜態資源服務
+app.use(express.static(path.join(PROJ_ROOT, 'public')));
+
+// 3. 終極相容路由：不使用 Regex，直接使用中介軟體處理 SPA 回退
+app.use((req, res, next) => {
+    if (req.method === 'GET' && !req.path.startsWith('/api')) {
+        return res.sendFile(path.join(PROJ_ROOT, 'public', 'index.html'));
+    }
+    next();
+});
+
+app.listen(PORT, '0.0.0.0', () => {
+    console.log(`🚀 [${new Date().toISOString()}] Micky AI Lab V4.8 (STABLE) listening on 0.0.0.0:${PORT}`);
+});

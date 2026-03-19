@@ -3,81 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Micky AI Lab | 創意奇點</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>Micky AI Lab | Cyber-Luxe V11</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@800&family=Inter:wght@300;600&display=swap" rel="stylesheet">
     <style>
-        :root { --accent: #bc13fe; --glass: rgba(255, 255, 255, 0.05); }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', system-ui, sans-serif; }
-        body { background: #000; color: white; overflow-x: hidden; scroll-snap-type: y mandatory; }
-        section { height: 100vh; width: 100vw; scroll-snap-align: start; position: relative; display: flex; align-items: center; justify-content: center; }
+@media (max-width: 768px) { .fb-link { right: 20px !important; width: calc(100% - 40px); text-align: center; } .fb-link[href*="blog"] { bottom: 100px !important; } .fb-link[href*="facebook"] { bottom: 40px !important; } }
+        :root { --accent: #bc13fe; --bg: #000; --neon-shadow: 0 0 20px rgba(188,19,254,0.4); }
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: crosshair; }
+        body { background: var(--bg); color: #fff; font-family: 'Inter', sans-serif; scroll-snap-type: y mandatory; overflow-x: hidden; }
+        section { height: 100vh; scroll-snap-align: start; position: relative; display: flex; align-items: center; justify-content: center; }
         
-        /* Section 1: Hero Cinema */
-        .hero-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1; filter: brightness(0.6); }
-        .hero-content { text-align: center; z-index: 1; }
-        .hero-content h1 { font-size: 5rem; font-weight: 800; letter-spacing: -2px; background: linear-gradient(to right, #fff, var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .scroll-indicator { position: absolute; bottom: 30px; animation: bounce 2s infinite; font-size: 1.5rem; opacity: 0.7; }
+        /* Hero Layer */
+        .hero-video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1; filter: brightness(0.3) saturate(1.2); }
+        .hero-title {
+            font-family: 'Syne', sans-serif; font-size: clamp(3rem, 12vw, 10rem); text-transform: uppercase;
+            letter-spacing: -0.05em; line-height: 0.85; text-align: center;
+            background: linear-gradient(180deg, #fff, var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
 
-        /* Section 2: Creative Console */
-        .console-container { width: 90%; max-width: 1000px; background: var(--glass); backdrop-filter: blur(30px); border: 1px solid rgba(255,255,255,0.1); border-radius: 30px; padding: 50px; box-shadow: 0 25px 50px rgba(0,0,0,0.5); }
-        .input-group { position: relative; margin-top: 30px; }
-        input { width: 100%; padding: 20px 25px; background: rgba(0,0,0,0.3); border: 1px solid rgba(188, 19, 254, 0.3); border-radius: 15px; color: white; font-size: 1.1rem; transition: all 0.3s; }
-        input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 20px rgba(188, 19, 254, 0.2); }
-        button { margin-top: 20px; width: 100%; padding: 18px; background: var(--accent); border: none; border-radius: 15px; color: white; font-weight: 700; cursor: pointer; transition: 0.3s; }
-        button:hover { transform: translateY(-2px); filter: brightness(1.2); }
-        button:disabled { background: #444; cursor: not-allowed; }
-        #result-container { margin-top: 30px; border-radius: 15px; overflow: hidden; display: none; }
-        #result-img { width: 100%; border-radius: 15px; border: 1px solid var(--accent); }
+        /* Cyber Console */
+        .console { background: radial-gradient(circle at center, #0a0a0a, #000); }
+        .cyber-card {
+            position: relative; width: 90%; max-width: 650px; padding: 60px; border-radius: 30px;
+            background: rgba(10, 10, 10, 0.8); backdrop-filter: blur(60px); 
+            border: 1px solid rgba(188,19,254,0.2); box-shadow: var(--neon-shadow);
+        }
+        .cyber-card::after {
+            content: ''; position: absolute; inset: -2px; border-radius: 32px; 
+            background: linear-gradient(45deg, var(--accent), transparent, var(--accent));
+            z-index: -1; opacity: 0.3; animation: rotate 10s linear infinite;
+        }
+        h2 { font-family: 'Syne', sans-serif; font-size: 1.2rem; letter-spacing: 8px; margin-bottom: 40px; color: var(--accent); text-transform: uppercase; }
+        input { width: 100%; padding: 25px; background: transparent; border: none; border-bottom: 2px solid rgba(255,255,255,0.1); color: #fff; font-size: 1.2rem; margin-bottom: 40px; outline: none; transition: 0.5s; }
+        input:focus { border-bottom-color: var(--accent); text-shadow: 0 0 10px var(--accent); }
+        button { width: 100%; padding: 25px; background: var(--accent); color: #fff; border: none; font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.1rem; cursor: pointer; transition: 0.4s; text-transform: uppercase; letter-spacing: 5px; }
+        button:hover { background: #fff; color: #000; box-shadow: 0 0 30px var(--accent); }
 
-        @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 40% {transform: translateY(-10px);} 60% {transform: translateY(-5px);} }
+        /* FB Link */
+        .fb-link { position: fixed; bottom: 40px; right: 40px; text-decoration: none; color: #fff; font-size: 0.7rem; letter-spacing: 3px; font-family: 'Syne'; border: 1px solid rgba(255,255,255,0.2); padding: 10px 20px; border-radius: 50px; transition: 0.3s; animation: pulse 2s infinite; }
+        .fb-link:hover { background: #fff; color: #000; border-color: #fff; }
+
+        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
     </style>
 </head>
 <body>
     <section>
-        <video class="hero-bg" autoplay loop muted playsinline><source src="/beta/hero.mp4" type="video/mp4"></video>
-        <div class="hero-content">
-            <h1>MICKY AI LAB</h1>
-            <p style="font-size: 1.2rem; opacity: 0.8; letter-spacing: 4px;">WHERE IMAGINATION MEETS LIGHTNING</p>
-        </div>
-        <div class="scroll-indicator"><i class="fas fa-chevron-down"></i></div>
+        <video class="hero-video" autoplay muted loop playsinline><source src="/beta/hero.mp4" type="video/mp4"></video>
+        <h1 class="hero-title">MICKY<br>AI LAB</h1>
     </section>
-
-    <section id="generator">
-        <div class="console-container">
-            <h2 style="font-size: 2rem; border-left: 4px solid var(--accent); padding-left: 15px;">創世控制台</h2>
-            <div class="input-group">
-                <input type="text" id="prompt" placeholder="描述你腦中的奇想 (例如: Neon Samurai in Cyberpunk Sydney)">
-                <button id="gen-btn" onclick="generateImage()">開始生成</button>
-            </div>
-            <div id="status" style="margin-top: 15px; text-align: center; color: var(--accent);"></div>
-            <div id="result-container"><img id="result-img" src="" alt="AI Result"></div>
+    <section class="console">
+        <div class="cyber-card">
+            <h2>Input Oracle</h2>
+            <input type="text" id="prompt" placeholder="DREAM YOUR ART...">
+            <button onclick="generate()" id="gen-btn">Start Symbolize</button>
+            <div id="result" style="margin-top:40px; display:none; border:1px solid var(--accent);"><img id="res-img" style="width:100%;"></div>
         </div>
     </section>
-
+    <a href="https://www.facebook.com/share/18SJHd54fs/" target="_blank" class="fb-link">FB / COMMUNITY</a> <a href="/beta/blog.html" id="blog-link" class="fb-link" style="right: 220px; text-align: center;">ARCHIVE</a>
     <script>
-        async function generateImage() {
-            const btn = document.getElementById('gen-btn');
-            const prompt = document.getElementById('prompt').value;
-            const status = document.getElementById('status');
-            if(!prompt) return alert('請輸入描述！');
-
-            btn.disabled = true; btn.innerText = '量產維度中...';
-            status.innerText = '⚡ 正在調用 Cloudflare GPU 加速器...';
-
+        async function generate() {
+            const btn = document.getElementById('gen-btn'); const p = document.getElementById('prompt').value;
+            if(!p) return; btn.disabled = true; btn.innerText = 'PROCESSING...';
             try {
-                const response = await fetch('/api/generate-image', {
-                    method: 'POST', headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({ promptText: prompt })
-                });
-                const blob = await response.blob();
-                const url = URL.createObjectURL(blob);
-                document.getElementById('result-container').style.display = 'block';
-                document.getElementById('result-img').src = url;
-                status.innerText = '✨ 生成成功！';
-            } catch (e) {
-                status.innerText = '❌ 能量波動異常，請重試';
-            } finally {
-                btn.disabled = false; btn.innerText = '開始生成';
-            }
+                const r = await fetch('/beta/api/generate-image', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ prompt: p }) });
+                const d = await r.json();
+                if(d.image) { document.getElementById('res-img').src = d.image; document.getElementById('result').style.display = 'block'; }
+            } catch(e) { alert('ERROR: NEXUS DISCONNECTED'); } finally { btn.disabled = false; btn.innerText = 'Start Symbolize'; }
         }
     </script>
 </body>

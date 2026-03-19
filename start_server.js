@@ -1,28 +1,21 @@
 const express = require('express');
 const { createProxyMiddleware } = require('http-proxy-middleware');
-const path = require('path');
 const app = express();
-const PORT = 3001;
 
-// 1. Static Files serving
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static('/home/ubuntu/mickyailab/public'));
 
-// 2. API Proxy logic
-app.use('/api', createProxyMiddleware({
-    target: 'https://mickyailab.vercel.app',
-    changeOrigin: true,
-    pathRewrite: { '^/api': '/api' }
+// 簡化代理邏輯，直接透明轉發，不進行二次重寫以免 Vercel 混淆
+app.use(['/api', '/beta/api'], createProxyMiddleware({
+  target: 'https://mickyailab.vercel.app',
+  changeOrigin: true,
+  onProxyReq: (pReq, req) => {
+    // 如果是 /beta/api，則修正路徑為 /api
+    if (req.url.startsWith('/beta/api')) pReq.path = req.url.replace('/beta/api', '/api');
+  }
 }));
 
-// 3. Ultra-stable Catch-all for SPA
-app.use((req, res, next) => {
-    if (req.method === 'GET' && req.accepts('html')) {
-        res.sendFile(path.join(__dirname, 'public', 'index.html'));
-    } else {
-        next();
-    }
+app.get(/^(?!\/api|\/beta\/api).*/, (req, res) => {
+  res.sendFile('/home/ubuntu/mickyailab/public/index.html');
 });
 
-app.listen(PORT, '0.0.0.0', () => {
-    console.log('Micky AI Lab V4.4 (Stable) listening on port ' + PORT);
-});
+app.listen(3001, '0.0.0.0', () => console.log('V9_ULTIMATE_READY'));
